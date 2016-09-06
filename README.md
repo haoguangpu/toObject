@@ -45,3 +45,45 @@ ECMA-262第五版定义了JS对象属性中特征（用于JS引擎，外部无�
   可以看出，delete及重置person.name的值都没有生效，这是因为调用defineProperty函数修改了对象属性的特征；值得注意的是一旦将
   configurable设置为false，则无法在使用defineProperty将其修改问哦true（执行会报错：can't redefine non-configurable property）;
 ###2.访问器属性
+      它主要包括一对getter和setter函数，在读取访问器属性时，会调用getter返回有效值；写入访问器属性时，调用setter，写入新值；
+      该属性有以下4个特征：
+      [[Configurable]]:是否可通过delete操作符删除重新定义属性；
+      [[Numberable]]:是否可通过for-in循环查找该属性；
+      [[Get]]:读取属性时调用，默认：undefined;
+      [[Set]]:写入属性时调用，默认：undefined;
+      访问器属性不能直接定义，必须使用defineProperty()来定义，如下：
+      var person = {
+            _age:18
+      };
+      Object.defineProperty(person,'isAdult',{
+            get:function(){
+                  if(this._age >= 18){
+                        return true;
+                  }else{
+                        return false;
+                  }
+            }
+      });
+      alert(person.isAdult?'成年'：'未成年')；//成年
+从上面可知，定义访问器属性时gerrer与setter函数不是必须的，并且，在定义getter与setter时不能制定属性configurable及writable特性；
+此外，ECMA-262(5)还提供了一个Object.defineProperties()方法，可以用来一次性定义多个属性的特性：        
+             var person = {};        
+             Object.defineProperties(person,{    
+              _age:{    
+                   value:19     
+              },   
+             isAdult:{    
+                   get:function(){   
+                         if(this._age >= 18){    
+                                return true;     
+                          }elsr{    
+                                return false;    
+                          }     
+                        }    
+             }    
+            });     
+      alert(person.isAdult?'成年'：'未成年')；//成年       
+上述代码使用Object.defineProperties()方法同时定义了_age及isAudlt两个属性的特性此外，使用Object.getOwnPropertyDescriptor()      
+方法可以取得给定属性的特性：      
+      var desciptor = Object.getOwnPropertyDescriptor(person,'_age');       
+      alert(descriptor.value);//19      
