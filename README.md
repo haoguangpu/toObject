@@ -65,24 +65,24 @@ ECMA-262第五版定义了JS对象属性中特征（用于JS引擎，外部无�
             }
       });
       alert(person.isAdult?'成年'：'未成年')；//成年
-从上面可知，定义访问器属性时gerrer与setter函数不是必须的，并且，在定义getter与setter时不能制定属性configurable及writable特性；
+######从上面可知，定义访问器属性时gerrer与setter函数不是必须的，并且，在定义getter与setter时不能制定属性configurable及writable特性；
 此外，ECMA-262(5)还提供了一个Object.defineProperties()方法，可以用来一次性定义多个属性的特性：        
-             var person = {};        
-             Object.defineProperties(person,{    
-              _age:{    
-                   value:19     
-              },   
-             isAdult:{    
-                   get:function(){   
-                         if(this._age >= 18){    
-                                return true;     
-                          }elsr{    
-                                return false;    
-                          }     
-                        }    
-             }    
-            });     
-      alert(person.isAdult?'成年'：'未成年')；//成年       
+      var person = {};
+      Object.defineProperties(person,{
+          _age:{
+              value:19
+          },
+          isAdult:{
+              get: function () {
+                  if (this._age >= 18) {
+                      return true;
+                  } else {
+                      return false;
+                  }
+              }
+          }
+      });
+      alert(person.isAdult?'成年':'未成年');//成年    
 上述代码使用Object.defineProperties()方法同时定义了_age及isAudlt两个属性的特性此外，使用Object.getOwnPropertyDescriptor()      
 方法可以取得给定属性的特性：      
       var desciptor = Object.getOwnPropertyDescriptor(person,'_age');       
